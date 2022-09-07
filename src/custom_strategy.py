@@ -16,7 +16,7 @@ class CustomStrategy(AbstractStrategy):
         self.sliding_window = deque([], maxlen=self.window_size)
         self.std_dev = 0
         self.last_price_timestamp = 0
-        self.strategy_risk_param = 6
+        self.strategy_risk_param = 4
 
     def push_to_sliding_window(self, price_row):
         self.sliding_window.append(price_row)
@@ -30,20 +30,23 @@ class CustomStrategy(AbstractStrategy):
 
     def get_next_day_ranges(self, data):
         # iterate through pandas dataframe and push into sliding window all the prices
-        swaps_data = data.swaps
+        swaps_data = data
         print("len(swaps_data['price'])")
-        print(len(swaps_data["price"]))
+        print(len(swaps_data["quotePrice"]))
 
-        last_timestamp = swaps_data[-1]["timestamp"]
+        first_timestamp = swaps_data.head(1)["block_timestamp"]
+        print("first_timestamp")
+        print(first_timestamp)
+        last_timestamp = swaps_data.tail(1)["block_timestamp"]
         print("last_timestamp")
-        print(last_timestamp[-1])
+        print(last_timestamp)
 
         # calculate the std dev from the sliding window
-        swaps_data = swaps_data["price"].apply(self.push_to_sliding_window)
+        swaps_data = swaps_data["quotePrice"].apply(self.push_to_sliding_window)
         self.calculate_std_dev_from_sliding_window()
 
         # get the last row price data
-        last_price = swaps_data[-1]
+        last_price = swaps_data.tail(1)
         print("last_price")
         print(last_price)
 

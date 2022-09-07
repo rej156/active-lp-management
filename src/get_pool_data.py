@@ -45,7 +45,7 @@ def download_bigquery_swap_data(
 
 # EXAMPLE USAGE
 eth_usdc_pool_address = str("0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8").lower()
-price_data_begin = str("2022-09-07")
+price_data_begin = str("2021-05-04")
 price_data_end = str("2022-09-08")
 decimals_0 = 6
 decimals_1 = 18
@@ -53,4 +53,5 @@ decimals_1 = 18
 df = download_bigquery_swap_data(
     eth_usdc_pool_address, price_data_begin, price_data_end, decimals_0, decimals_1
 )
+df.to_csv("data/swaps.csv")
 print(df.tail())

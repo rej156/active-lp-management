@@ -10,3 +10,5 @@ __pycache__/
 /data
 .vscode
 /dist
+src/config.py
+/lib/*
